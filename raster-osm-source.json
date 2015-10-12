@@ -1,0 +1,14 @@
+{
+  "autoscale": true,
+  "bounds": [-180, -85, 180, 85],
+  "center": [0, 0, 3],
+  "description": "",
+  "maxzoom": 19,
+  "minzoom": 0,
+  "private": true,
+  "scheme": "xyz",
+  "tilejson": "2.0.0",
+  "tiles": [
+    "http://tile.openstreetmap.org/{z}/{x}/{y}.png"
+  ]
+}
