@@ -3,40 +3,14 @@
 var assign = require('object-assign');
 var MapGL = require('react-map-gl');
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Immutable = require('immutable');
 var r = require('r-dom');
 var document = require('global/document');
 var window = require('global/window');
-var process = require('global/process');
-var d3 = require('d3');
-/* eslint-disable no-process-env */
-var mapboxApiAccessToken = process.env.MapboxAccessToken;
-// With the OSM raster tile style below, we don't actually even need to provide
-// an access token but for convience, we'll leave the above line.
-/* eslint-enable no-process-env */
-
-var mapStyle = Immutable.Map({
-  version: 8,
-  name: 'Testing OSM raster source',
-  sources: {
-    'raster-osm-source': {
-      type: 'raster',
-      url: 'raster-osm-source.json',
-      tileSize: 256
-    }
-  },
-  layers: [
-    {
-      id: 'raster-osm',
-      type: 'raster',
-      source: 'raster-osm-source',
-      'source-layer': 'rastor_osm_full',
-      paint: {
-        'raster-opacity': 1
-      }
-    }
-  ]
-});
+var rasterTileStyle = require('raster-tile-style');
+var tileSource = '//tile.stamen.com/toner/{z}/{x}/{y}.png';
+var mapStyle = Immutable.fromJS(rasterTileStyle([tileSource]));
 
 var App = React.createClass({
   getInitialState: function getInitialState() {
@@ -47,8 +21,7 @@ var App = React.createClass({
         zoom: 11,
         mapStyle: mapStyle,
         width: window.innerWidth,
-        height: window.innerHeight,
-        mapboxApiAccessToken: mapboxApiAccessToken
+        height: window.innerHeight
       }
     };
   },
@@ -75,7 +48,7 @@ var App = React.createClass({
   }
 });
 
-React.render(r(App), document.body);
-
-d3.select('body').style('margin', 0);
-
+var reactContainer = document.createElement('div');
+document.body.style.margin = '0';
+document.body.appendChild(reactContainer);
+ReactDOM.render(r(App), reactContainer);
